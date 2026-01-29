@@ -2129,6 +2129,56 @@ body::before {
     visibility: visible !important;
     display: inline-block !important;
 }
+    /* Add this to your existing .item-tag styles */
+.item-tag {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background-color: #f8f9fa;
+    color: #666;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ensure the icons inside item-tag are always visible */
+.item-tag i {
+    margin-right: 4px;
+    color: var(--orange);
+    font-size: 0.7rem;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: inline-block !important;
+}
+
+/* Add this specific rule to handle the initial visibility */
+.menu-item .item-tag {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Force immediate rendering of item tags */
+.menu-item .item-tag-fix {
+    display: -webkit-box !important;
+    display: -webkit-inline-box !important;
+    display: inline-block !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
     </style>
 </head>
 <body>
@@ -4922,5 +4972,34 @@ highlights: [
 
 
 
+    // Force item tags to be visible
+function fixItemTagsVisibility() {
+    // Force a reflow to ensure tags are visible
+    document.querySelectorAll('.item-tag').forEach(tag => {
+        tag.style.display = 'inline-block';
+        tag.style.visibility = 'visible';
+        tag.style.opacity = '1';
+        
+        // Force icon visibility
+        const icon = tag.querySelector('i');
+        if (icon) {
+            icon.style.visibility = 'visible';
+            icon.style.opacity = '1';
+            icon.style.display = 'inline-block';
+        }
+    });
     
+    // Trigger a reflow
+    void document.querySelector('.menu-item').offsetHeight;
+}
+
+// Call this function after page loads
+window.addEventListener('load', function() {
+    setTimeout(fixItemTagsVisibility, 100);
+});
+
+// Also call it when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(fixItemTagsVisibility, 300);
+});
 </script>
