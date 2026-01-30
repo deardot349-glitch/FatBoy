@@ -1,3 +1,5 @@
+[file name]: index.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -813,6 +815,7 @@
             background-position: center;
             border-radius: 8px;
             margin-bottom: 15px;
+            background-repeat: no-repeat;
         }
 
         .expanded-title {
@@ -2098,38 +2101,18 @@
             line-height: 1 !important;
         }
 
+        .item-tag .fa,
+        .item-tag .fas {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: inline-block !important;
+        }
 
 
 
-        /* FINAL FIX: Ensure FontAwesome icons are always visible */
-.fa, .fas, .far, .fab {
-    opacity: 1 !important;
-    visibility: visible !important;
-    /* Keep original display property */
-    display: var(--fa-display, inline-block) !important;
-}
 
-/* Pre-render icons to force font loading */
-body::before {
-    content: '\f06d\f005\f521\f814\f7e4\f164\f2e7\f1ae\f80f\f57d\f0fc\f3a5\f0c0\f2e5\f0ab\f06c\f57e\f541\f017\f496\f805\f07a\f00d\f304\f5a0\f879\f0f4\f4de\f21c';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    position: absolute;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-    z-index: -9999;
-    opacity: 0;
-}
 
-/* Specific fix for item tags */
-.item-tag .fa,
-.item-tag .fas {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: inline-block !important;
-}
-    /* Add this to your existing .item-tag styles */
+        /* Add this to your existing .item-tag styles */
 .item-tag {
     display: inline-block !important;
     visibility: visible !important;
@@ -2266,7 +2249,7 @@ body::before {
                 </div>
                 
                 <div class="menu-item fade-in" data-category="burgers">
-                    <div class="item-image" style="background-image: url('bro.jpeg');"></div>
+                    <div class="item-image" style="background-image: url('чорний бро.jpeg');"></div>
                     <div class="item-content">
                         <div class="item-title">
                             <h3>⚫ Чорний БРО</h3>
@@ -2283,7 +2266,7 @@ body::before {
                 </div>
                 
                 <div class="menu-item fade-in" data-category="burgers">
-                    <div class="item-image" style="background-image: url('бро.jpeg'); background-size: 60%; background-position: center; background-repeat: no-repeat;"></div>
+                    <div class="item-image" style="background-image: url('грибний бро.jpeg'); background-size: 60%; background-position: center; background-repeat: no-repeat;"></div>
                     <div class="item-content">
                         <div class="item-title">
                             <h3>🍄 Трюфельний БРО</h3>
@@ -2317,7 +2300,7 @@ body::before {
                 </div>
                 
                 <div class="menu-item fade-in" data-category="burgers">
-                    <div class="item-image" style="background-image: url('дужебургер.jpeg'); background-size: 60%; background-position: center; background-repeat: no-repeat;"></div>
+                    <div class="item-image" style="background-image: url('дуже сирний бургер.jpeg'); background-size: 60%; background-position: center; background-repeat: no-repeat;"></div>
                     <div class="item-content">
                         <div class="item-title">
                             <h3>🧀 Дуже сирний Бургер</h3>
@@ -2334,7 +2317,7 @@ body::before {
                 </div>
                 
                 <div class="menu-item fade-in" data-category="burgers">
-                    <div class="item-image" style="background-image: url('goodboy.jpeg'); background-size: 60%; background-position: center; background-repeat: no-repeat;"></div>
+                    <div class="item-image" style="background-image: url('класичний бургер.jpeg'); background-size: 60%; background-position: center; background-repeat: no-repeat;"></div>
                     <div class="item-content">
                         <div class="item-title">
                             <h3>😎 Просто класний бургер</h3>
@@ -2368,7 +2351,7 @@ body::before {
                 </div>
                 
                 <div class="menu-item fade-in" data-category="burgers">
-                    <div class="item-image" style="background-image: url('kids.jpeg'); background-size: 60%; background-position: center; background-repeat: no-repeat;"></div>
+                    <div class="item-image" style="background-image: url('дитячий.jpeg'); background-size: 60%; background-position: center; background-repeat: no-repeat;"></div>
                     <div class="item-content">
                         <div class="item-title">
                             <h3>👶 Дитячий Бургер</h3>
@@ -3439,7 +3422,7 @@ body::before {
                     { name: "Куряча стріпса", price: 45 },
                     { name: "Бекон", price: 15 },
                     { name: "Помідори", price: 10 },
-                    { name: "Котлета яловичо-свинна", price: 40 },
+                    { name: "Котлета яловичо -свинна", price: 40 },
                     { name: "Котлета куряча", price: 30 },
                     { name: "Сир чедер", price: 10 },
                     { name: "Цибулеві кільця", price: 15 },
@@ -4141,6 +4124,7 @@ highlights: [
         setupScrollAnimations();
         setupSmoothScrolling();
         setupHeaderScroll();
+        fixItemTagsVisibility();
     }
 
     // Налаштування обробників подій
@@ -4672,6 +4656,10 @@ highlights: [
         
         // Оновлюємо контент розширеної картки
         expandedImage.style.backgroundImage = `url('${item.image}')`;
+        expandedImage.style.backgroundSize = 'contain';
+        expandedImage.style.backgroundRepeat = 'no-repeat';
+        expandedImage.style.backgroundPosition = 'center';
+        
         expandedTitle.textContent = item.name;
         
         // Оновлюємо ціну
@@ -4963,43 +4951,30 @@ highlights: [
         }, 2000);
     }
 
+    // Force item tags to be visible
+    function fixItemTagsVisibility() {
+        // Force a reflow to ensure tags are visible
+        document.querySelectorAll('.item-tag').forEach(tag => {
+            tag.style.display = 'inline-block';
+            tag.style.visibility = 'visible';
+            tag.style.opacity = '1';
+            
+            // Force icon visibility
+            const icon = tag.querySelector('i');
+            if (icon) {
+                icon.style.visibility = 'visible';
+                icon.style.opacity = '1';
+                icon.style.display = 'inline-block';
+            }
+        });
+        
+        // Trigger a reflow
+        if (document.querySelector('.menu-item')) {
+            void document.querySelector('.menu-item').offsetHeight;
+        }
+    }
+
     // Запуск при завантаженні сторінки
     document.addEventListener('DOMContentLoaded', init);
-    
-
-
-
-
-
-
-    // Force item tags to be visible
-function fixItemTagsVisibility() {
-    // Force a reflow to ensure tags are visible
-    document.querySelectorAll('.item-tag').forEach(tag => {
-        tag.style.display = 'inline-block';
-        tag.style.visibility = 'visible';
-        tag.style.opacity = '1';
-        
-        // Force icon visibility
-        const icon = tag.querySelector('i');
-        if (icon) {
-            icon.style.visibility = 'visible';
-            icon.style.opacity = '1';
-            icon.style.display = 'inline-block';
-        }
-    });
-    
-    // Trigger a reflow
-    void document.querySelector('.menu-item').offsetHeight;
-}
-
-// Call this function after page loads
-window.addEventListener('load', function() {
-    setTimeout(fixItemTagsVisibility, 100);
-});
-
-// Also call it when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(fixItemTagsVisibility, 300);
-});
 </script>
+[file content end]
